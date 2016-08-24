@@ -3,9 +3,8 @@ MAINTAINER Oleg Kulyk
 
 ENV USER=root \
     SERVICE_NAME="rust:jessie-nightly" \
-    RUST_VERSION=nightly \
-    APP_DIR=/usr/scr/app \
-    CARGO_HOME=$APP_DIR/.cargo
+    RUST_VERSION=nightly
+
 ARG RUST_ARCHIVE=rust-$RUST_VERSION-x86_64-unknown-linux-gnu.tar.gz
 ARG DOWNLOAD_URL=https://static.rust-lang.org/dist/$RUST_ARCHIVE
 
