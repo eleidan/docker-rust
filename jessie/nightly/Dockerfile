@@ -15,4 +15,4 @@ RUN cd /tmp \
     && ./install.sh \
     && rm -rf *
 
-WORKDIR /usr/scr/app
+WORKDIR /usr/src/app
