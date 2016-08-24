@@ -9,7 +9,7 @@ ARG DOWNLOAD_URL=https://static.rust-lang.org/dist/$RUST_ARCHIVE
 
 RUN cd /tmp \
 		&& curl -fsOSL $DOWNLOAD_URL \
-		&& curl -s $DOWNLOAD_URL.sha256 | sha256sum -c --status s- \
+		&& curl -s $DOWNLOAD_URL.sha256 | sha256sum -c --status - \
     && tar -xzf $RUST_ARCHIVE --strip-components=1 \
 		&& ./install.sh \
 		&& rm -rf *
