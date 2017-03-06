@@ -1,5 +1,10 @@
 FROM eleidan/buildpack-deps:jessie
-MAINTAINER Oleg Kulyk
+
+LABEL maintainer="Oleg Kulyk" \
+      description="Rust nightly based on Debian Jessie" \
+      init="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:nightly-jessie docker-init.sh" \
+      run="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:nightly-jessie bash" \
+      version="2017-03-06"
 
 ENV RUST_VERSION="nightly" \
     USER=phantom
@@ -20,12 +25,6 @@ RUN cd /tmp \
 WORKDIR $HOME/app
 
 ### Provide end users with handy init script
-# Can be used as follows:
-#   docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:<version>-<flavor> docker-init.sh
-# NOTE: Replace <version> with actual ruby version,
-#       and <flavor> with actual linux distro flavor.
-# EXAMPLE:
-# docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:nightly-jessie docker-init.sh
 COPY docker-init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-init.sh
 
