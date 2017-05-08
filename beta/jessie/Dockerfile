@@ -1,10 +1,14 @@
 FROM eleidan/buildpack-deps:jessie
-MAINTAINER Oleg Kulyk
 
-ENV RUST_VERSION="beta" \
-    USER=phantom
-ENV HOME=/home/${USER} \
-    SERVICE_NAME="rust:${RUST_VERSION}-jessie"
+LABEL maintainer="Oleg Kulyk" \
+      description="Rust beta based on Debian Jessie" \
+      init="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:beta-jessie docker-init.sh" \
+      run="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:beta-jessie" \
+      version="2017-05-09"
+
+ENV USER=phantom \
+    RUST_VERSION=beta \
+    SERVICE_NAME="rust:beta-jessie"
 
 ARG RUST_ARCHIVE="rust-${RUST_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
 ARG DOWNLOAD_URL="https://static.rust-lang.org/dist/${RUST_ARCHIVE}"
@@ -19,17 +23,8 @@ RUN cd /tmp \
 
 WORKDIR $HOME/app
 
-### Provide end users with handy init script
-# Can be used as follows:
-#   docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:<version>-<flavor> docker-init.sh
-# NOTE: Replace <version> with actual ruby version,
-#       and <flavor> with actual linux distro flavor.
-# EXAMPLE:
-# docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:beta-jessie docker-init.sh
 COPY docker-init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-init.sh
 
 ### Needed for the docker-init.sh script
 COPY recipes $HOME/recipes
-
-CMD ["/bin/bash"]

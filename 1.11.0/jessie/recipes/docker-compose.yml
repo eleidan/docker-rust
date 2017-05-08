@@ -1,7 +1,7 @@
 version: '2'
 services:
   dev:
-    image: eleidan/rust:1.11-jessie
+    image: eleidan/rust:1.11.0-jessie
     environment:
       - CARGO_HOME=/home/phantom/app/.cargo
     volumes:
