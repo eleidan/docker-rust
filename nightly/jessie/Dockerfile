@@ -8,6 +8,7 @@ LABEL maintainer="Oleg Kulyk" \
 
 ENV USER=phantom \
     RUST_VERSION=nightly \
+    PATH="$PATH:$HOME/app/.cargo/bin" \
     SERVICE_NAME="rust:nightly-jessie"
 
 ARG RUST_ARCHIVE="rust-${RUST_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
