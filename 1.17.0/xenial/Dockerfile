@@ -1,9 +1,9 @@
-FROM eleidan/buildpack-deps:jessie
+FROM eleidan/buildpack-deps:xenial
 
 LABEL maintainer="Oleg Kulyk" \
-      description="Rust 1.17.0 based on Debian Jessie" \
-      init="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:1.17.0-jessie docker-init.sh" \
-      run="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:1.17.0-jessie" \
+      description="Rust 1.17.0 based on Ubuntu 16.04" \
+      init="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:1.17.0-xenial docker-init.sh" \
+      run="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:1.17.0-xenial" \
       version="2017-07-31"
 
 ### Install Rust
@@ -26,7 +26,7 @@ RUN chmod +x /usr/local/bin/docker-init.sh
 COPY recipes $HOME/recipes
 
 ENV CARGO_HOME="/home/phantom/app/.cargo" \
-    SERVICE_NAME="rust:1.17.0-jessie" \
+    SERVICE_NAME="rust:1.17.0-xenial" \
     USER=phantom
 
 # Let running software installed via 'cargo install'
