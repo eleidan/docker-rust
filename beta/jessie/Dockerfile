@@ -4,16 +4,12 @@ LABEL maintainer="Oleg Kulyk" \
       description="Rust beta based on Debian Jessie" \
       init="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:beta-jessie docker-init.sh" \
       run="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:beta-jessie" \
-      version="2017-05-09"
-
-ENV USER=phantom \
-    RUST_VERSION=beta \
-    SERVICE_NAME="rust:beta-jessie"
-
-ARG RUST_ARCHIVE="rust-${RUST_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
-ARG DOWNLOAD_URL="https://static.rust-lang.org/dist/${RUST_ARCHIVE}"
+      version="2017-07-31"
 
 ### Install Rust
+ARG RUST_VERSION=beta
+ARG RUST_ARCHIVE="rust-${RUST_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+ARG DOWNLOAD_URL="https://static.rust-lang.org/dist/${RUST_ARCHIVE}"
 RUN cd /tmp \
     && curl -fsOSL $DOWNLOAD_URL \
     && curl -s $DOWNLOAD_URL.sha256 | sha256sum -c --status - \
@@ -28,3 +24,10 @@ RUN chmod +x /usr/local/bin/docker-init.sh
 
 ### Needed for the docker-init.sh script
 COPY recipes $HOME/recipes
+
+ENV CARGO_HOME="/home/phantom/app/.cargo" \
+    SERVICE_NAME="rust:beta-jessie" \
+    USER=phantom
+
+# Let running software installed via 'cargo install'
+RUN echo "PATH=${CARGO_HOME}/bin:${PATH}" >> $HOME/.bashrc
