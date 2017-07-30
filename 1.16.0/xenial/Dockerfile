@@ -28,3 +28,6 @@ COPY recipes $HOME/recipes
 ENV CARGO_HOME="/home/phantom/app/.cargo" \
     SERVICE_NAME="rust:1.16.0-xenial" \
     USER=phantom
+
+# Let running software installed via 'cargo install'
+RUN echo "PATH=${CARGO_HOME}/bin:${PATH}" >> $HOME/.bashrc
