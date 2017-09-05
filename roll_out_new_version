@@ -9,8 +9,8 @@ Usage:
   $PROGRAM [--help]
 
 Options:
-  -r, --release-version=VERSION     Specify release version.
-      --help                        Print help message.
+  -r VERSION            Specify rust version to create.
+  -h, --help            Print help message.
 EOM
 
 
@@ -28,8 +28,8 @@ function process_params {
 
   while true; do
     case "$1" in
-        -r|--release-version)
-            RELEASE_VERSION=$(echo "$2" | tr '[:upper:]' '[:lower:]')
+        -r)
+            RELEASE_VERSION="$2"
             shift 2
             ;;
         -h|--help)
@@ -48,15 +48,15 @@ function process_params {
 }
 
 
-function validate_release_version_is_specified {
+function validate_rust_release_is_specified {
   if [[ "${RELEASE_VERSION}x" = "x" ]]; then
-    echo "Error: Release version is not specified"
+    echo "Error: Rust release is not specified"
     exit 1
   fi
 }
 
 function validate_input {
-  validate_release_version_is_specified
+  validate_rust_release_is_specified
 }
 ################################################################################
 getopt --test > /dev/null
@@ -65,8 +65,8 @@ if [[ $? -ne 4 ]]; then
     exit 1
 fi
 
-SHORT="r:"
-LONG="release-version:,help"
+SHORT="r:h"
+LONG="help"
 PARSED=$(getopt --options $SHORT --longoptions $LONG --name "$0" -- "$@")
 
 
@@ -82,22 +82,29 @@ eval set -- "$PARSED"
 
 process_params $@
 validate_input
-mkdir $RELEASE_VERSION
+mkdir -p $RELEASE_VERSION
 cp -R 1.16.0/* $RELEASE_VERSION/
 
 SEMVER_PATTERN="[0-9]+\.[0-9]+\.[0-9]+"
+ROOT_DIR=$(pwd)
 
-for distro in jessie xenial; do
-  TARGET_FILE="${RELEASE_VERSION}/${distro}/Dockerfile"
-  sed -i -r \
-      -e "s/Rust ${SEMVER_PATTERN}/Rust ${RELEASE_VERSION}/g" \
-      -e "s/rust:${SEMVER_PATTERN}/rust:${RELEASE_VERSION}/g" \
-      -e "s/RUST_VERSION=${SEMVER_PATTERN}/RUST_VERSION=${RELEASE_VERSION}/g" \
-      -e "s/version=\S*/version=\"$(date +"%F")\"/g" \
-      ${TARGET_FILE}
+pushd 1.16.0 > /dev/null
+for distro_family in $(ls); do
+  pushd $distro_family > /dev/null
+  for distro_release in $(ls); do
+    TARGET_FILE="${ROOT_DIR}/${RELEASE_VERSION}/${distro_family}/${distro_release}/Dockerfile"
+    sed -i -r \
+        -e "s/Rust ${SEMVER_PATTERN}/Rust ${RELEASE_VERSION}/g" \
+        -e "s/rust:${SEMVER_PATTERN}/rust:${RELEASE_VERSION}/g" \
+        -e "s/RUST_VERSION=${SEMVER_PATTERN}/RUST_VERSION=${RELEASE_VERSION}/g" \
+        -e "s/version=\S*/version=\"$(date +"%F")\"/g" \
+        ${TARGET_FILE}
 
-  TARGET_FILE="${RELEASE_VERSION}/${distro}/recipes/docker-compose.yml"
-  sed -i -r \
-      -e "s/rust:${SEMVER_PATTERN}/rust:${RELEASE_VERSION}/g" \
-      ${TARGET_FILE}
+    TARGET_FILE="${ROOT_DIR}/${RELEASE_VERSION}/${distro_family}/${distro_release}/recipes/docker-compose.yml"
+    sed -i -r \
+        -e "s/rust:${SEMVER_PATTERN}/rust:${RELEASE_VERSION}/g" \
+        ${TARGET_FILE}
+  done
+  popd > /dev/null
 done
+popd > /dev/null
