@@ -1,9 +1,9 @@
-FROM eleidan/buildpack-deps:xenial
+FROM eleidan/buildpack-deps:ubuntu-16.04
 
 LABEL maintainer="Oleg Kulyk" \
       description="Rust nightly based on Ubuntu 16.04" \
-      init="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:nightly-xenial docker-init.sh" \
-      run="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:nightly-xenial" \
+      init="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:nightly-ubuntu-16.04 docker-init.sh" \
+      run="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:nightly-ubuntu-16.04" \
       version="2017-07-31"
 
 ### Install Rust
@@ -26,7 +26,7 @@ RUN chmod +x /usr/local/bin/docker-init.sh
 COPY recipes $HOME/recipes
 
 ENV CARGO_HOME="/home/phantom/app/.cargo" \
-    SERVICE_NAME="rust:nightly-xenial" \
+    SERVICE_NAME="Rust nightly on Ubuntu 16.04" \
     USER=phantom
 
 # Let running software installed via 'cargo install'
