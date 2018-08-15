@@ -1,0 +1,11 @@
+version: '2'
+
+volumes:
+  bash-history:
+
+services:
+  dev:
+    image: eleidan/rust:1.28.0-ubuntu-16.04
+    volumes:
+      - .:/home/phantom/app
+      - bash-history:/home/phantom/bash-history
