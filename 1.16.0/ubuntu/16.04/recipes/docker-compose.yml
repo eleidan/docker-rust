@@ -6,6 +6,7 @@ volumes:
 services:
   dev:
     image: eleidan/rust:1.16.0-ubuntu-16.04
+    user: phantom
     volumes:
       - .:/home/phantom/app
       - bash-history:/home/phantom/bash-history
