@@ -1,10 +1,10 @@
-FROM eleidan/buildpack-deps:ubuntu-16.04
+FROM eleidan/base:ubuntu-16.04
 
 LABEL maintainer="Oleg Kulyk" \
       description="Rust 1.16.0 based on Ubuntu 16.04" \
-      init="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:1.16.0-ubuntu-16.04 docker-init.sh" \
-      run="docker run -it --rm -v $(pwd):/home/phantom/app eleidan/rust:1.16.0-ubuntu-16.04" \
-      version="2017-08-01"
+      init="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:1.16.0-ubuntu-16.04 docker-init.sh" \
+      run="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:1.16.0-ubuntu-16.04" \
+      version="2018-08-15"
 
 ### Install Rust
 ARG RUST_VERSION=1.16.0
@@ -27,7 +27,7 @@ COPY recipes $HOME/recipes
 
 ENV CARGO_HOME="/home/phantom/app/.cargo" \
     SERVICE_NAME="Rust 1.16.0 on Ubuntu 16.04" \
-    USER=phantom
+    USER=${CONTAINER_USER}
 
 # Let running software installed via 'cargo install'
 RUN echo "PATH=${CARGO_HOME}/bin:${PATH}" >> $HOME/.bashrc
