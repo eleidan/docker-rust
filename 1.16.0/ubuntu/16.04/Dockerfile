@@ -22,6 +22,8 @@ WORKDIR $HOME/app
 COPY docker-init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-init.sh
 
+USER ${CONTAINER_USER}
+
 ### Needed for the docker-init.sh script
 COPY recipes $HOME/recipes
 
@@ -30,4 +32,4 @@ ENV CARGO_HOME="/home/phantom/app/.cargo" \
     USER=${CONTAINER_USER}
 
 # Let running software installed via 'cargo install'
-RUN echo "PATH=${CARGO_HOME}/bin:${PATH}" >> $HOME/.bashrc
+RUN echo ". ${CARGO_HOME}/env" >> $HOME/.bashrc

@@ -4,7 +4,7 @@ LABEL maintainer="Oleg Kulyk" \
       description="Rust 1.28.0 based on Ubuntu 16.04" \
       init="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:1.28.0-ubuntu-16.04 docker-init.sh" \
       run="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:1.28.0-ubuntu-16.04" \
-      version="2018-08-15"
+      version="2018-08-16"
 
 ### Install Rust
 ARG RUST_VERSION=1.28.0
@@ -22,6 +22,8 @@ WORKDIR $HOME/app
 COPY docker-init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-init.sh
 
+USER ${CONTAINER_USER}
+
 ### Needed for the docker-init.sh script
 COPY recipes $HOME/recipes
 
@@ -30,4 +32,4 @@ ENV CARGO_HOME="/home/phantom/app/.cargo" \
     USER=${CONTAINER_USER}
 
 # Let running software installed via 'cargo install'
-RUN echo "PATH=${CARGO_HOME}/bin:${PATH}" >> $HOME/.bashrc
+RUN echo ". ${CARGO_HOME}/env" >> $HOME/.bashrc
