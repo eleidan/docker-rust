@@ -1,7 +1,0 @@
-version: '2'
-services:
-  dev:
-    image: eleidan/rust:1.20.0-xenial
-    volumes:
-      - .:/home/phantom/app
-      - .docker/.bash_history:/home/phantom/.bash_history
