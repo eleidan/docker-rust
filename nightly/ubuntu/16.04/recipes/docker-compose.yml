@@ -1,7 +1,12 @@
 version: '2'
+
+volumes:
+  bash-history:
+
 services:
   dev:
     image: eleidan/rust:nightly-ubuntu-16.04
+    user: phantom
     volumes:
       - .:/home/phantom/app
-      - .docker/.bash_history:/home/phantom/.bash_history
+      - bash-history:/home/phantom/bash-history
