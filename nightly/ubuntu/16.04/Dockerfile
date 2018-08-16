@@ -22,7 +22,7 @@ ENV CARGO_HOME="${HOME}/.cargo" \
     USER=${CONTAINER_USER}
 
 ### Needed for the docker-init.sh script
-COPY recipes $HOME/recipes
+COPY --chown=phantom:phantom recipes $HOME/recipes
 
 # Let running software installed via 'cargo install'
 RUN echo ". ${CARGO_HOME}/env" >> $HOME/.bashrc
