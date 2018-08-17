@@ -1,7 +1,0 @@
-version: '2'
-services:
-  dev:
-    image: eleidan/rust:beta-jessie
-    volumes:
-      - .:/home/phantom/app
-      - .docker/.bash_history:/home/phantom/.bash_history
