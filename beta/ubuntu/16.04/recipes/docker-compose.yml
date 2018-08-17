@@ -2,6 +2,7 @@ version: '2'
 
 volumes:
   bash-history:
+  cargo-registry:
 
 services:
   dev:
@@ -10,3 +11,4 @@ services:
     volumes:
       - .:/home/phantom/app
       - bash-history:/home/phantom/bash-history
+      - cargo-registry:/home/phantom/.cargo/registry

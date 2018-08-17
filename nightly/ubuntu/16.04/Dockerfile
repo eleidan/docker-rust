@@ -4,7 +4,7 @@ LABEL maintainer="Oleg Kulyk" \
       description="Rust nightly based on Ubuntu 16.04" \
       init="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:nightly-ubuntu-16.04 docker-init.sh" \
       run="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:nightly-ubuntu-16.04" \
-      version="2018-08-16"
+      version="2018-08-17"
 
 WORKDIR $HOME/app
 
@@ -20,6 +20,8 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain ${RUST_VERSION
 ENV CARGO_HOME="${HOME}/.cargo" \
     SERVICE_NAME="Rust nightly on Ubuntu 16.04" \
     USER=${CONTAINER_USER}
+
+RUN mkdir ${CARGO_HOME}/registry
 
 ### Needed for the docker-init.sh script
 COPY --chown=phantom:phantom recipes $HOME/recipes
