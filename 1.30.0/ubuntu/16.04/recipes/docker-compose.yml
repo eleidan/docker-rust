@@ -1,0 +1,14 @@
+version: '2'
+
+volumes:
+  bash-history:
+  cargo-registry:
+
+services:
+  dev:
+    image: eleidan/rust:1.30.0-ubuntu-16.04
+    user: phantom
+    volumes:
+      - .:/home/phantom/app
+      - bash-history:/home/phantom/bash-history
+      - cargo-registry:/home/phantom/.cargo/registry
