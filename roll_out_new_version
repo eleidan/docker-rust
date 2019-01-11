@@ -101,7 +101,7 @@ for distro_family in $(ls); do
         -e "s/version=\S*/version=\"$(date +"%F")\"/g" \
         ${TARGET_FILE}
 
-    TARGET_FILE="${ROOT_DIR}/${RELEASE_VERSION}/${distro_family}/${distro_release}/recipes/docker-compose.yml"
+    TARGET_FILE="${ROOT_DIR}/${RELEASE_VERSION}/${distro_family}/${distro_release}/recipes/Dockerfile"
     sed -i -r \
         -e "s/rust:${SEMVER_PATTERN}/rust:${RELEASE_VERSION}/g" \
         ${TARGET_FILE}

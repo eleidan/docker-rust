@@ -11,7 +11,7 @@ WORKDIR $HOME/app
 COPY docker-init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-init.sh
 
-USER ${CONTAINER_USER}
+USER phantom
 
 ### Install Rust
 ARG RUST_VERSION=1.28.0
@@ -19,7 +19,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain ${RUST_VERSION
 
 ENV CARGO_HOME="${HOME}/.cargo" \
     SERVICE_NAME="Rust 1.28.0 on Ubuntu 16.04" \
-    USER=${CONTAINER_USER}
+    USER=phantom
 
 RUN mkdir ${CARGO_HOME}/registry
 
