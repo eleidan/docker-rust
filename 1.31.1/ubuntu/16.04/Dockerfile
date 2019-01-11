@@ -1,25 +1,25 @@
 FROM eleidan/base:ubuntu-16.04
 
 LABEL maintainer="Oleg Kulyk" \
-      description="Rust 1.31.0 based on Ubuntu 16.04" \
-      init="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:1.31.0-ubuntu-16.04 docker-init.sh" \
-      run="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:1.31.0-ubuntu-16.04" \
-      version="2018-12-07"
+      description="Rust 1.31.1 based on Ubuntu 16.04" \
+      init="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:1.31.1-ubuntu-16.04 docker-init.sh" \
+      run="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:1.31.1-ubuntu-16.04" \
+      version="2019-01-11"
 
 WORKDIR $HOME/app
 
 COPY docker-init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-init.sh
 
-USER ${CONTAINER_USER}
+USER phantom
 
 ### Install Rust
-ARG RUST_VERSION=1.31.0
+ARG RUST_VERSION=1.31.1
 RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain ${RUST_VERSION} -y
 
 ENV CARGO_HOME="${HOME}/.cargo" \
-    SERVICE_NAME="Rust 1.31.0 on Ubuntu 16.04" \
-    USER=${CONTAINER_USER}
+    SERVICE_NAME="Rust 1.31.1 on Ubuntu 16.04" \
+    USER=phantom
 
 RUN mkdir ${CARGO_HOME}/registry
 
