@@ -4,14 +4,14 @@ LABEL maintainer="Oleg Kulyk" \
       description="Rust nightly based on Ubuntu 16.04" \
       init="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:nightly-ubuntu-16.04 docker-init.sh" \
       run="docker run -it --rm --user $(id -u) -v $(pwd):/home/phantom/app eleidan/rust:nightly-ubuntu-16.04" \
-      version="2018-08-17"
+      version="2019-09-11"
 
 WORKDIR $HOME/app
 
 COPY docker-init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-init.sh
 
-USER ${CONTAINER_USER}
+USER phantom
 
 ### Install Rust
 ARG RUST_VERSION=nightly
@@ -19,7 +19,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain ${RUST_VERSION
 
 ENV CARGO_HOME="${HOME}/.cargo" \
     SERVICE_NAME="Rust nightly on Ubuntu 16.04" \
-    USER=${CONTAINER_USER}
+    USER=phantom
 
 RUN mkdir ${CARGO_HOME}/registry
 
