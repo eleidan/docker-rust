@@ -10,3 +10,7 @@ RUN groupmod -g ${HOST_GID} phantom
 RUN chown phantom:phantom ${HOME}
 
 USER phantom
+
+# Uncomment lines below to add clippy and rustfmt
+# RUN rustup component add clippy
+# RUN rustup component add rustfmt
