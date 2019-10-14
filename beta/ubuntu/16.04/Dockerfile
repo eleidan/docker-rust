@@ -8,6 +8,8 @@ LABEL maintainer="Oleg Kulyk" \
 
 WORKDIR $HOME/app
 
+USER root
+
 COPY docker-init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-init.sh
 
